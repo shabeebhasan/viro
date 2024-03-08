@@ -25,7 +25,6 @@ import { ViroExitViroEvent } from "./Types/ViroEvents";
 import { Viro3DPoint } from "./Types/ViroUtils";
 import { ViroSceneDictionary } from "./Types/ViroUtils";
 import { ViroScene } from "./ViroScene";
-import { ViroTelemetry } from "./Telemetry/ViroTelemetry";
 var ViroSceneNavigatorModule = NativeModules.VRTSceneNavigatorModule;
 
 var mathRandomOffset = 0;
@@ -479,9 +478,7 @@ export class ViroSceneNavigator extends React.Component<Props, State> {
     // If the user simply passes us the props from the root React component,
     // then we'll have an extra 'rootTag' key which React automatically includes
     // so remove it.
-    if (this.sceneNavigator.viroAppProps?.rootTag) {
-      delete this.sceneNavigator.viroAppProps?.rootTag;
-    }
+    delete this.sceneNavigator.viroAppProps.rootTag;
 
     const {
       vrModeEnabled = true, // default to true

@@ -57,9 +57,8 @@ export class ViroBase<T> extends React.Component<ViroBaseProps & T> {
         event.nativeEvent.position,
         event.nativeEvent.source
       );
-
-    // Value representation of Clicked ClickState within EventDelegateJni.
-    if (event.nativeEvent.clickState == ViroClickStateTypes.CLICKED) {
+    let CLICKED = ViroClickStateTypes.CLICKED; // Value representation of Clicked ClickState within EventDelegateJni.
+    if (event.nativeEvent.clickState == CLICKED) {
       this._onClick(event);
     }
   };

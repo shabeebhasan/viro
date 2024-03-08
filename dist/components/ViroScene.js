@@ -37,7 +37,7 @@ const react_native_1 = require("react-native");
 const ViroBase_1 = require("./ViroBase");
 const ViroSceneContext_1 = require("./ViroSceneContext");
 class ViroScene extends ViroBase_1.ViroBase {
-    _onPlatformUpdate = (event) => {
+    _onPlatformUpdate(event) {
         /**
          * ##### DEPRECATION WARNING - 'vrPlatform' is deprecated in favor of 'platform'! Support
          * for 'vrPlatform' may be removed in the future.
@@ -46,9 +46,9 @@ class ViroScene extends ViroBase_1.ViroBase {
             event.nativeEvent.platformInfoViro.platform;
         this.props.onPlatformUpdate &&
             this.props.onPlatformUpdate(event.nativeEvent.platformInfoViro);
-    };
-    _onCameraTransformUpdate = (event) => {
-        const cameraTransform = {
+    }
+    _onCameraTransformUpdate(event) {
+        var cameraTransform = {
             // ** DEPRECATION WARNING ** The cameraTransform key will be deprecated in a future release,
             cameraTransform: {
                 position: [
@@ -95,14 +95,14 @@ class ViroScene extends ViroBase_1.ViroBase {
         };
         this.props.onCameraTransformUpdate &&
             this.props.onCameraTransformUpdate(cameraTransform);
-    };
+    }
     // TODO: types for closest
-    findCollisionsWithRayAsync = async (from, to, closest, viroTag) => {
+    async findCollisionsWithRayAsync(from, to, closest, viroTag) {
         return await react_native_1.NativeModules.VRTSceneModule.findCollisionsWithRayAsync((0, react_native_1.findNodeHandle)(this), from, to, closest, viroTag);
-    };
-    findCollisionsWithShapeAsync = async (from, to, shapeString, shapeParam, viroTag) => {
+    }
+    async findCollisionsWithShapeAsync(from, to, shapeString, shapeParam, viroTag) {
         return await react_native_1.NativeModules.VRTSceneModule.findCollisionsWithShapeAsync((0, react_native_1.findNodeHandle)(this), from, to, shapeString, shapeParam, viroTag);
-    };
+    }
     /**
      * ##### DEPRECATION WARNING - this prop may be removed in future releases #####
      * @deprecated

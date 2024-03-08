@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-import { ViroTelemetry } from "./components/Telemetry/ViroTelemetry";
+
 import { ViroAnimations } from "./components/Animation/ViroAnimations";
 import { Viro3DObject } from "./components/Viro3DObject";
 import { Viro360Image } from "./components/Viro360Image";
@@ -127,7 +127,6 @@ import {
 } from "./components/Types/ViroEvents";
 import { ViroSurface } from "./components/ViroSurface";
 import { ViroSceneNavigator } from "./components/ViroSceneNavigator";
-import { VIRO_VERSION } from "./components/Utilities/ViroVersion";
 
 export {
   ViroARImageMarker,
@@ -249,6 +248,4 @@ export {
   ViroSoundFinishEvent,
   ViroTextStyle,
   ViroStyle,
-  ViroTelemetry,
-  VIRO_VERSION,
 };

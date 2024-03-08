@@ -45,6 +45,37 @@ var mathRandomOffset = 0;
 class Viro3DSceneNavigator extends React.Component {
     _component = null;
     /**
+     * Called from native when either the user physically decides to exit vr (hits
+     * the "X" buton).
+     */
+    _onExitViro(_event) {
+        this.props.onExitViro && this.props.onExitViro();
+    }
+    constructor(props) {
+        super(props);
+        var initialSceneTag = this.props.initialSceneKey;
+        if (initialSceneTag == null) {
+            initialSceneTag = this.getRandomTag();
+        }
+        var scene = {
+            sceneClass: this.props.initialScene,
+            tag: initialSceneTag,
+            referenceCount: 1,
+        };
+        var sceneDict = {};
+        sceneDict[scene.tag] = scene;
+        this.state = {
+            sceneDictionary: sceneDict,
+            sceneHistory: [scene.tag],
+            currentSceneIndex: 0,
+        };
+    }
+    getRandomTag() {
+        var randomTag = Math.random() + mathRandomOffset;
+        mathRandomOffset++;
+        return randomTag.toString();
+    }
+    /**
      * Pushes a scene and reference it with the given key if provided.
      * If the scene has been previously pushed, we simply show the scene again.
      * Note that the back history order of which scenes were pushed is preserved.
@@ -58,9 +89,9 @@ class Viro3DSceneNavigator extends React.Component {
      *
      * @todo: use Typescript function overloading rather than this inaccurate solution
      */
-    push = (param1, param2) => {
-        let sceneKey = undefined;
-        let scene = undefined;
+    push(param1, param2) {
+        var sceneKey = undefined;
+        var scene = undefined;
         if (typeof param1 == "string") {
             sceneKey = param1;
             scene = param2;
@@ -84,37 +115,6 @@ class Viro3DSceneNavigator extends React.Component {
         }
         this.incrementSceneReference(scene, sceneKey, false);
         this.addToHistory(sceneKey);
-    };
-    /**
-     * Called from native when either the user physically decides to exit vr (hits
-     * the "X" buton).
-     */
-    _onExitViro(_event) {
-        this.props.onExitViro && this.props.onExitViro();
-    }
-    constructor(props) {
-        super(props);
-        let initialSceneTag = props.initialSceneKey;
-        if (initialSceneTag == null) {
-            initialSceneTag = this.getRandomTag();
-        }
-        const scene = {
-            sceneClass: props.initialScene,
-            tag: initialSceneTag,
-            referenceCount: 1,
-        };
-        let sceneDict = {};
-        sceneDict[scene.tag] = scene;
-        this.state = {
-            sceneDictionary: sceneDict,
-            sceneHistory: [scene.tag],
-            currentSceneIndex: 0,
-        };
-    }
-    getRandomTag() {
-        var randomTag = Math.random() + mathRandomOffset;
-        mathRandomOffset++;
-        return randomTag.toString();
     }
     /**
      * Replace the top scene in the stack with the given scene. The remainder of the back
@@ -360,20 +360,18 @@ class Viro3DSceneNavigator extends React.Component {
     render() {
         // Uncomment this line to check for misnamed props
         //checkMisnamedProps("Viro3DSceneNavigator", this.props);
-        const items = this._renderSceneStackItems();
+        var items = this._renderSceneStackItems();
         // update the sceneNavigator with the latest given props on every render
         this.sceneNavigator.viroAppProps = this.props.viroAppProps;
         // If the user simply passes us the props from the root React component,
         // then we'll have an extra 'rootTag' key which React automatically includes
         // so remove it.
-        if (this.sceneNavigator.viroAppProps?.rootTag) {
-            delete this.sceneNavigator.viroAppProps?.rootTag;
-        }
+        delete this.sceneNavigator.viroAppProps.rootTag;
         const { viroAppProps = {}, // Make sure viroAppProps aren't null to save us having to always check
          } = this.props;
         return (<VRT3DSceneNavigator ref={(component) => {
                 this._component = component;
-            }} {...this.props} viroAppProps={viroAppProps} currentSceneIndex={this.state.currentSceneIndex} style={(this.props.style, styles.container)} hasOnExitViroCallback={!!this.props.onExitViro} onExitViro={this._onExitViro}>
+            }} {...this.props} viroAppProps={viroAppProps} currentSceneIndex={this.state.currentSceneIndex} style={(this.props.style, styles.container)} hasOnExitViroCallback={this.props.onExitViro != undefined} onExitViro={this._onExitViro}>
         {items}
       </VRT3DSceneNavigator>);
     }

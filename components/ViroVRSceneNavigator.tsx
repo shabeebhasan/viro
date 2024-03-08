@@ -96,16 +96,16 @@ export class ViroVRSceneNavigator extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    let initialSceneTag = props.initialSceneKey;
+    var initialSceneTag = this.props.initialSceneKey;
     if (initialSceneTag == null) {
       initialSceneTag = this.getRandomTag();
     }
-    const scene = {
-      sceneClass: props.initialScene,
+    var scene = {
+      sceneClass: this.props.initialScene,
       tag: initialSceneTag,
       referenceCount: 1,
     };
-    const sceneDict: ViroSceneDictionary = {};
+    var sceneDict: ViroSceneDictionary = {};
     sceneDict[scene.tag] = scene;
     this.state = {
       sceneDictionary: sceneDict,
@@ -474,7 +474,7 @@ export class ViroVRSceneNavigator extends React.Component<Props, State> {
   };
 
   render() {
-    const items = this._renderSceneStackItems();
+    var items = this._renderSceneStackItems();
 
     // Uncomment this line to check for misnamed props
     //checkMisnamedProps("ViroVRSceneNavigator", this.props)
